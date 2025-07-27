@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polysense Consultores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+            --border-color: #ccc;
+            --nav-bg: #f9f9f9;
+            --nav-hover: #f0f0f0;
+            --accent-color: #666;
+            --link-color: #0000ff;
+            --link-visited: #800080;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --border-color: #333;
+            --nav-bg: #1a1a1a;
+            --nav-hover: #2a2a2a;
+            --accent-color: #aaa;
+            --link-color: #66b3ff;
+            --link-visited: #cc99ff;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            font-size: 16px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--nav-hover);
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 30px 0 15px 0;
+            line-height: 1.3;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 10px 0;
+        }
+        
+        p {
+            margin: 15px 0;
+            line-height: 1.7;
+        }
+        
+        /* Links */
+        a {
+            color: var(--link-color);
+            text-decoration: underline;
+            transition: all 0.3s ease;
+        }
+        
+        a:visited {
+            color: var(--link-visited);
+        }
+        
+        a:hover {
+            background: var(--nav-hover);
+        }
+        
+        /* Lists */
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px 0;
+            border-top: 3px solid var(--text-color);
+            border-bottom: 3px solid var(--text-color);
+        }
+        
+        .logo svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        
+        .logo svg .solid,
+        .logo svg .dashed {
+            stroke: var(--text-color);
+            transition: stroke 0.3s ease;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-sub {
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+        }
+        
+        /* Navigation */
+        .nav {
+            margin: 40px 0;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-button {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .nav-button:hover {
+            background: var(--nav-hover);
+            border-color: var(--text-color);
+            text-decoration: none;
+        }
+        
+        /* Sections */
+        .section {
+            margin: 60px 0;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        /* Stats */
+        .stats {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--nav-bg);
+            border-left: 4px solid var(--text-color);
+        }
+        
+        .stat-item {
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .stat-number {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* Team */
+        .team-member {
+            margin: 30px 0;
+            padding: 20px 0;
+            border-bottom: 1px dotted var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .team-member:last-child {
+            border-bottom: none;
+        }
+        
+        .team-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--nav-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+        
+        .team-info {
+            flex: 1;
+        }
+        
+        .team-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .team-role {
+            color: var(--accent-color);
+            font-style: italic;
+            margin: 5px 0;
+        }
+        
+        .team-quote {
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+            font-style: italic;
+        }
+        
+        /* Contact */
+        .contact-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--nav-bg);
+        }
+        
+        .contact-item {
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .contact-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        /* Form */
+        .contact-form {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .form-button {
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: 1px solid var(--text-color);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-button:hover {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        /* Services */
+        .service-item {
+            margin: 20px 0;
+            padding: 15px 0;
+            border-bottom: 1px dotted var(--border-color);
+        }
+        
+        .service-number {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        
+        .service-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 3px solid var(--text-color);
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 15px;
+                font-size: 14px;
+            }
+            
+            .logo-text {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .team-member {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Print */
+         {
+            body {
+                max-width: none;
+                margin: 0;
+                padding: 20px;
+            }
+            
+            a {
+                color: #000;
+                text-decoration: none;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .theme-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙/☀️</button>
+
+    <!-- Logo -->
+    <div class="logo">
+        <svg viewBox="0 0 200 200">
+            <!-- Outer visible lines -->
+            <line class="solid" x1="100" y1="20"  x2="30"  y2="100" stroke-width="1.5" />
+            <line class="solid" x1="100" y1="20"  x2="170" y2="100" stroke-width="1.5" />
+            <line class="solid" x1="30"  y1="100" x2="100" y2="180" stroke-width="1.5" />
+            <line class="solid" x1="170" y1="100" x2="100" y2="180" stroke-width="1.5" />
+
+            <!-- Horizontal visible line -->
+            <line class="solid" x1="30" y1="100" x2="170" y2="100" stroke-width="1.5" />
+
+            <!-- Internal dashed lines -->
+            <line class="dashed" x1="100" y1="20"  x2="100" y2="180" stroke-width="1" stroke-dasharray="4" />
+            <line class="dashed" x1="100" y1="20"  x2="100" y2="100" stroke-width="1" stroke-dasharray="4" />
+            <line class="dashed" x1="100" y1="180" x2="100" y2="100" stroke-width="1" stroke-dasharray="4" />
+            <line class="dashed" x1="30"  y1="100" x2="100" y2="100" stroke-width="1" stroke-dasharray="4" />
+            <line class="dashed" x1="170" y1="100" x2="100" y2="100" stroke-width="1" stroke-dasharray="4" />
+        </svg>
+        <div class="logo-text">POLYSENSE</div>
+        <div class="logo-sub">CONSULTORES</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-title">Navegación:</div>
+        <div class="nav-buttons">
+            <a href="#servicios" class="nav-button">Servicios</a>
+            <a href="#nosotros" class="nav-button">Nosotros</a>
+            <a href="#equipo" class="nav-button">Equipo</a>
+            <a href="#contacto" class="nav-button">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Introduction -->
+        <section>
+            <h1>Consultoría en Políticas Públicas</h1>
+            <p>Polysense Consultores se especializa en el diseño, implementación y evaluación de políticas públicas efectivas para el desarrollo sostenible de Colombia. Utilizamos Business Intelligence e inteligencia artificial para crear procesos innovadores de participación ciudadana que fortalecen la democracia participativa.</p>
+            
+            <p>Combinamos rigor académico con experiencia práctica y tecnología de vanguardia para transformar ideas en soluciones basadas en datos que generen impacto real en la sociedad colombiana.</p>
+        </section>
+
+        <!-- Services -->
+        <section class="section" id="servicios">
+            <h2>Servicios</h2>
+            <p>Ofrecemos consultoría especializada en las siguientes áreas:</p>
+            
+            <div class="service-item">
+                <div class="service-number">01.</div>
+                <div class="service-title">Análisis de Políticas</div>
+                <p>Evaluación técnica y metodológica de políticas públicas existentes, identificando oportunidades de mejora y optimización de recursos.</p>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-number">02.</div>
+                <div class="service-title">Diseño Estratégico</div>
+                <p>Desarrollo de políticas públicas innovadoras basadas en evidencia y adaptadas al contexto socioeconómico colombiano.</p>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-number">03.</div>
+                <div class="service-title">Implementación</div>
+                <p>Acompañamiento integral en la ejecución de políticas, asegurando su correcta implementación y monitoreo continuo.</p>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-number">04.</div>
+                <div class="service-title">Evaluación de Impacto</div>
+                <p>Medición rigurosa del impacto de políticas públicas utilizando metodologías cuantitativas y cualitativas avanzadas.</p>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-number">05.</div>
+                <div class="service-title">Participación Ciudadana</div>
+                <p>Diseño de mecanismos efectivos de participación ciudadana para fortalecer la democracia participativa.</p>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-number">06.</div>
+                <div class="service-title">Sostenibilidad</div>
+                <p>Integración de criterios de sostenibilidad ambiental y social en el diseño de políticas públicas.</p>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="section" id="nosotros">
+            <h2>Nosotros</h2>
+            
+            <h3>Nuestra Filosofía</h3>
+            <p>Las mejores políticas públicas nacen del diálogo entre la evidencia empírica y la comprensión profunda de las realidades sociales, económicas y culturales de nuestro país.</p>
+            
+            <p>Trabajamos con un enfoque multidisciplinario que integra economía, ciencia política, sociología y administración pública para ofrecer perspectivas integrales.</p>
+            
+            <h3>Metodología</h3>
+            <ul>
+                <li><strong>Diagnóstico:</strong> Análisis profundo del contexto y identificación de problemáticas</li>
+                <li><strong>Diseño:</strong> Desarrollo de propuestas basadas en evidencia y mejores prácticas</li>
+                <li><strong>Implementación:</strong> Acompañamiento en la ejecución y gestión del cambio</li>
+                <li><strong>Evaluación:</strong> Monitoreo de resultados y ajustes para maximizar el impacto</li>
+            </ul>
+            
+            <div class="stats">
+                <h3>Estadísticas</h3>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span> Proyectos completados
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15+</span> Instituciones públicas atendidas
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">08</span> Años de experiencia
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span> Compromiso con Colombia
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section class="section" id="equipo">
+            <h2>Equipo</h2>
+            <p>Nuestro equipo multidisciplinario combina experiencia académica y práctica:</p>
+            
+            <div class="team-member">
+                <div class="team-photo">MF</div>
+                <div class="team-info">
+                    <div class="team-name">María Fernanda Cortés</div>
+                    <div class="team-role">Directora General</div>
+                    <div class="team-quote">"Las mejores políticas nacen del diálogo entre la evidencia y la realidad social."</div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="team-photo">JL</div>
+                <div class="team-info">
+                    <div class="team-name">Johanna López</div>
+                    <div class="team-role">Directora de Análisis</div>
+                    <div class="team-quote">"Cada dato cuenta una historia que puede transformar una comunidad."</div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="team-photo">AE</div>
+                <div class="team-info">
+                    <div class="team-name">Alejandro Espitia</div>
+                    <div class="team-role">Especialista en Implementación</div>
+                    <div class="team-quote">"La verdadera medida del éxito está en el impacto real sobre las personas."</div>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="team-photo">RS</div>
+                <div class="team-info">
+                    <div class="team-name">René Sandoval</div>
+                    <div class="team-role">Investigador Senior</div>
+                    <div class="team-quote">"La investigación rigurosa es el fundamento de toda política pública efectiva."</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="section" id="contacto">
+            <h2>Contacto</h2>
+            <p>Para consultas y colaboraciones:</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-label">Dirección:</span>
+                    Bogotá D.C., Colombia
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Teléfono:</span>
+                    +57 (1) 234-5678
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Correo:</span>
+                    <a href="mailto:contacto@polysense.co">contacto@polysense.co</a>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Horarios:</span>
+                    Lunes a Viernes, 8:00 AM - 6:00 PM
+                </div>
+            </div>
+            
+            <h3>Enviar Mensaje</h3>
+            <p>Complete el formulario o envíe un correo directo a <a href="mailto:contacto@polysense.co">contacto@polysense.co</a>:</p>
+            
+            <form class="contact-form" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="organizacion">Organización:</label>
+                    <input type="text" id="organizacion" name="organizacion" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="proyecto">Descripción del proyecto:</label>
+                    <textarea id="proyecto" name="proyecto" class="form-textarea" required></textarea>
+                </div>
+                
+                <button type="submit" class="form-button">Enviar Mensaje</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Polysense Consultores</p>
+        <p>Consultoría en Políticas Públicas • Colombia</p>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // Create email content
+            const subject = `Consulta de ${data.nombre} - ${data.organizacion || 'Particular'}`;
+            const body = `Nombre: ${data.nombre}
+Organización: ${data.organizacion || 'No especificada'}
+Correo: ${data.email}
+Teléfono: ${data.telefono || 'No especificado'}
+
+Descripción del proyecto:
+${data.proyecto}`;
+
+            // Create mailto link
+            const mailtoLink = `mailto:contacto@polysense.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Reset form
+            event.target.reset();
+            
+            alert('Su mensaje ha sido preparado. Si no se abre su cliente de correo automáticamente, copie la información y envíela a contacto@polysense.co');
+        }
+
+        // Simple focus management for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Initialize theme on page load
+        loadTheme();
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDoN3x6EVrVupYGbh4HwhKS1PVCu89pWlnSvGi%2BO1o0cRI5jWtHbYJ2Vpl9Sc5oznFhmCtXZ0Dg7AD6R6zvZ23DbTe2RRFVeuKQ3j2BjnjZPmpxrYtDVKbTdTCbZzLExCc1p3iBOuaBYRo1oxqF0ywu7BQe1eFYmuRUtPOogTD%2BGDnAUuncsiwzv%2BVeZI%2BwdiaSoVblnI910AYYiyd2yuDJ7W980jr%2Fjvo2qEzmFgX7YacZBu1%2FL8nMXAmcSmUbZvGaxfm%2BUMoHKi%2F7ydgAQvjiddNZVUKA97WHvZq0R3pUZYRD1lyo%2FSJ0%2FMcNIlLqZWAMSi2uAkmZIF9%2B%2B5b4HxR7%2F30lbkhqjh8I3emInXyxY5YiqGsZrLhM2qaMaQFl2DQZZPBvcEWDRwyjmBYrLB4zySf2U%2Fqk1CazmsEtkV15oUIPf7imsnKRh7A4qXFRJ8XNS79oAWjVzTN0gjQ3gTr3ZpjfLCpWeXaEEBjbh6jJH6S6rvUwOcfIJ%2BApcLSI5Z0Q%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDoN3x6EVrVupYGbh4HwhKS1PVCu89pWlnSvGi+O1o0cRI5jWtHbYJ2Vpl9Sc5oznFhmCtXZ0Dg7AD6R6zvZ23DbTe2RRFVeuKQ3j2BjnjZPmpxrYtDVKbTdTCbZzLExCc1p3iBOuaBYRo1oxqF0ywu7BQe1eFYmuRUtPOogTD+GDnAUuncsiwzv+VeZI+wdiaSoVblnI910AYYiyd2yuDJ7W980jr/jvo2qEzmFgX7YacZBu1/L8nMXAmcSmUbZvGaxfm+UMoHKi/7ydgAQvjiddNZVUKA97WHvZq0R3pUZYRD1lyo/SJ0/McNIlLqZWAMSi2uAkmZIF9++5b4HxR7/30lbkhqjh8I3emInXyxY5YiqGsZrLhM2qaMaQFl2DQZZPBvcEWDRwyjmBYrLB4zySf2U/qk1CazmsEtkV15oUIPf7imsnKRh7A4qXFRJ8XNS79oAWjVzTN0gjQ3gTr3ZpjfLCpWeXaEEBjbh6jJH6S6rvUwOcfIJ+ApcLSI5Z0Q==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
